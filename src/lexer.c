@@ -48,18 +48,10 @@ Token *tokenize(const char *source) {
                 case '(': tokens[tokenIndex++] = createToken(TOKEN_LEFT_PAREN, "(", line); break;
                 case ')': tokens[tokenIndex++] = createToken(TOKEN_RIGHT_PAREN, ")", line); break;
                 default:
-                    fprintf(stderr, "Error: Unexpected character '%c' at line %d\n", c, line);
-                    exit(1);
+                    reportError("lexer", line, "Unexpected character encountered.");
             }
         }
     }
     tokens[tokenIndex++] = createToken(TOKEN_EOF, "", line);
     return tokens;
-}
-
-void freeTokens(Token *tokens) {
-    for (int i = 0; tokens[i].type != TOKEN_EOF; i++) {
-        free(tokens[i].lexeme);
-    }
-    free(tokens);
 }
