@@ -1,0 +1,35 @@
+# Ignore the compiled executable
+goud
+
+# Ignore object files
+*.o
+
+# Ignore temporary files and editor/IDE settings
+*.swp           # vim swap files
+*.swo           # vim backup files
+*.DS_Store      # macOS file
+*~              # temporary files
+*.tmp           # general temp files
+
+# Ignore build/ and debug directories (if you use them)
+build/
+debug/
+
+# Ignore logs, lock files, and generated files
+*.log
+*.lock
+
+# Ignore shell script execution logs
+goud.sh.log
+
+# Ignore compiled binaries for Mac/Linux/Windows
+*.out
+*.exe
+
+# If using Visual Studio Code or other IDEs, ignore their settings
+.vscode/
+.idea/
+
+# If using CLion or other JetBrains products, ignore their settings
+cmake-build-debug/
+cmake-build-release/
