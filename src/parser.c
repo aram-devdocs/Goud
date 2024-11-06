@@ -61,7 +61,6 @@ void parseStatement(Token *tokens, int *index) {
         }
 
         case TOKEN_ELSE: {
-            // Report an error if 'else' is encountered without a preceding 'if'
             reportError("parser", currentToken.line, "Unexpected 'else' without matching 'if'.");
             break;
         }
@@ -70,8 +69,9 @@ void parseStatement(Token *tokens, int *index) {
             (*index)++;
             int value = parseExpression(tokens, index);
             printf("Output: %d\n", value);
-            // Skip optional newline
-            if (tokens[*index].type == TOKEN_NEWLINE) {
+
+            // Skip any newlines
+            while (tokens[*index].type == TOKEN_NEWLINE) {
                 (*index)++;
             }
             break;
@@ -83,8 +83,9 @@ void parseStatement(Token *tokens, int *index) {
                 (*index)++; // Skip '='
                 int value = parseExpression(tokens, index);
                 setVariableValue(identifier.lexeme, value);
-                // Skip optional newline
-                if (tokens[*index].type == TOKEN_NEWLINE) {
+
+                // Skip any newlines
+                while (tokens[*index].type == TOKEN_NEWLINE) {
                     (*index)++;
                 }
             } else {
@@ -106,54 +107,23 @@ void parseStatement(Token *tokens, int *index) {
 }
 
 void parseBlock(Token *tokens, int *index) {
-    // For simplicity, assume the block is a single statement.
-    // Skip any newlines before the statement
-    while (tokens[*index].type == TOKEN_NEWLINE) {
-        (*index)++;
-    }
+    // Parse statements until the end of the block
+    while (tokens[*index].type != TOKEN_EOF &&
+           tokens[*index].type != TOKEN_ELSE &&
+           tokens[*index].type != TOKEN_IF) {
 
-    parseStatement(tokens, index);
+        parseStatement(tokens, index);
+    }
 }
 
 void skipBlock(Token *tokens, int *index) {
-    // Skip over the next statement or block
-    Token currentToken = tokens[*index];
+    // Skip statements until the end of the block
+    while (tokens[*index].type != TOKEN_EOF &&
+           tokens[*index].type != TOKEN_ELSE &&
+           tokens[*index].type != TOKEN_IF) {
 
-    // If it's an 'if', we need to skip the entire if-else structure
-    if (currentToken.type == TOKEN_IF) {
-        (*index)++; // Skip 'if'
-
-        // Skip condition
-        while (tokens[*index].type != TOKEN_COLON && tokens[*index].type != TOKEN_EOF) {
-            (*index)++;
-        }
-
-        if (tokens[*index].type == TOKEN_COLON) {
-            (*index)++; // Skip colon
-        }
-
-        // Recursively skip the 'if' block
-        skipBlock(tokens, index);
-
-        // Check for 'else'
-        if (tokens[*index].type == TOKEN_ELSE) {
-            (*index)++; // Skip 'else'
-
-            if (tokens[*index].type == TOKEN_COLON) {
-                (*index)++; // Skip colon
-            }
-
-            // Recursively skip the 'else' block
-            skipBlock(tokens, index);
-        }
-    } else {
-        // For other statements, skip until the next newline or EOF
-        while (tokens[*index].type != TOKEN_NEWLINE && tokens[*index].type != TOKEN_EOF) {
-            (*index)++;
-        }
-        if (tokens[*index].type == TOKEN_NEWLINE) {
-            (*index)++;
-        }
+        // Skip over the current token
+        (*index)++;
     }
 }
 
