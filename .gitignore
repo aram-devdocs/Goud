@@ -8,6 +8,7 @@ goud
 *.swp           # vim swap files
 *.swo           # vim backup files
 *.DS_Store      # macOS file
+.DS_Store
 *~              # temporary files
 *.tmp           # general temp files
 
