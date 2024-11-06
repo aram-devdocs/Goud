@@ -10,6 +10,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    // Load the source file
     FILE *file = fopen(argv[1], "r");
     if (!file)
     {
@@ -17,6 +18,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    // Read the file content
     fseek(file, 0, SEEK_END);
     long fileSize = ftell(file);
     fseek(file, 0, SEEK_SET);
@@ -25,6 +27,7 @@ int main(int argc, char **argv)
     source[fileSize] = '\0';
     fclose(file);
 
+    // Tokenize, parse, and free tokens
     Token *tokens = tokenize(source);
     parse(tokens);
 

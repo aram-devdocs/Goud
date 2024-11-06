@@ -1,6 +1,18 @@
-x = 5 + 3
-y = x * 2
-z = y / (4 - 2)
-print(x)
-print(y)
-print(z)
+x = 11
+y = 5
+
+if x > y:
+    print(x)         
+else:
+    print(y)         # Should print y if x is not greater than y
+
+if x == 10:
+    print(100)       # Should print 100 if x is exactly 10
+
+if y != 10:
+    print(50)        # Should print 50 if y is not equal to 10
+
+if x < 20:
+    print(200)       # Should print 200 since x is less than 20
+else:
+    print(0)         # Fallback if x is not less than 20
